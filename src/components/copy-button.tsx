@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react"
-import { Button, ButtonProps } from "./ui/button"
-import { cn } from "@/lib/utils"
-import { CheckIcon, ClipboardIcon } from "lucide-react"
+import { CheckIcon, ClipboardIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
+import { cn } from '@/lib/utils'
+
+import { Button, ButtonProps } from './ui/button'
 
 interface CopyButtonProps extends ButtonProps {
   value: string
-  text ?: string
+  text?: string
 }
 
 export function CopyButton({
   value,
   className,
-  variant = "ghost",
+  variant = 'ghost',
   text,
   ...props
 }: CopyButtonProps) {
@@ -28,14 +30,9 @@ export function CopyButton({
   return (
     <Button
       variant={variant}
-      className={cn(
-        "",
-        className
-      )}
+      className={cn('', className)}
       onClick={() => {
-        copyToClipboardWithMeta(
-          value,
-        )
+        copyToClipboardWithMeta(value)
         setHasCopied(true)
       }}
       {...props}

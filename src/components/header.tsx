@@ -14,9 +14,7 @@ import { UserDropdown } from './user-dropdown'
 
 export function Header() {
   const { data: session } = useSession()
-  const navigation = [
-    { name: 'Salas', href: '/app/rooms' },
-  ]
+  const navigation = [{ name: 'Salas', href: '/app/rooms' }]
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   useEffect(() => {
@@ -52,10 +50,7 @@ export function Header() {
         <div className="hidden lg:flex lg:gap-x-12">
           {navigation.map((item) => (
             <Button
-              className={cn(
-                'text-lg',
-                isActive(item.href) && 'underline',
-              )}
+              className={cn('text-lg', isActive(item.href) && 'underline')}
               key={item.name}
               variant="link"
               asChild
@@ -69,10 +64,7 @@ export function Header() {
           {session?.user ? (
             <UserDropdown user={session.user} />
           ) : (
-            <Button
-              variant="default"
-              asChild
-            >
+            <Button variant="default" asChild>
               <Link href={'/auth'}>Login</Link>
             </Button>
           )}
@@ -87,7 +79,7 @@ export function Header() {
         <div className="fixed inset-0 z-10" />
         <DialogPanel className=" fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background p-4  sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <Button  asChild variant="default" className={cn('p-6')}>
+            <Button asChild variant="default" className={cn('p-6')}>
               <Link href="/">
                 <h1 className="text-xl font-bold">Chat Distribuído</h1>
               </Link>
@@ -125,11 +117,7 @@ export function Header() {
                 {session?.user ? (
                   <UserDropdown user={session.user} />
                 ) : (
-                  <Button
-                    variant="default"
-                    className="w-full"                 
-                    asChild
-                  >
+                  <Button variant="default" className="w-full" asChild>
                     <Link href={'/auth'}>Login</Link>
                   </Button>
                 )}

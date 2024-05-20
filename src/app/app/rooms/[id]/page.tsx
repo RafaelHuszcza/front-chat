@@ -1,6 +1,3 @@
-
 export default function Page({ params }: { params: { id: string } }) {
-  
-
-  return (<div>dadsadasdasdasda</div>)
+  return <div>dadsadasdasdasda</div>
 }

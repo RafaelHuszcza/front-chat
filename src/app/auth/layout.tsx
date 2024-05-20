@@ -1,6 +1,7 @@
-import { Header } from "@/components/header"
-import { getServerSessionWithAuth } from "@/services/auth"
-import { redirect } from "next/navigation"
+import { redirect } from 'next/navigation'
+
+import { Header } from '@/components/header'
+import { getServerSessionWithAuth } from '@/services/auth'
 
 export default async function Layout({
   children,
@@ -12,9 +13,11 @@ export default async function Layout({
     redirect('/app')
   }
   return (
-    <><Header/>
-    <main className="flex flex-1 items-center justify-center">
-        {children}</main>
-        </>
+    <>
+      <Header />
+      <main className="flex h-[calc(100vh-5rem)] items-center justify-center">
+        {children}
+      </main>
+    </>
   )
 }

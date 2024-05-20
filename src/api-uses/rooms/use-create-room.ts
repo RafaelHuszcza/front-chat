@@ -1,13 +1,13 @@
 'use client'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 
 import { apiClient } from '../api-client'
 import { roomsRoute } from '../routes'
 import { roomQueryKeys } from './room-query-keys'
 import { Room } from './use-edit-room'
-import { useRouter } from 'next/navigation'
-import axios from 'axios'
 
 const createRoomFn = async (newRoom: Room) => {
   try {
@@ -16,9 +16,9 @@ const createRoomFn = async (newRoom: Room) => {
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       // Lança o erro com a resposta completa
-      throw error.response;
+      throw error.response
     } else {
-      throw error;
+      throw error
     }
   }
 }
@@ -38,16 +38,16 @@ export function useCreateRoom() {
       router.push(`/app/rooms/${data.id}`)
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: async (error,response, newRoom,) => {
-      let errorMessage: string = "Erro ao criar Sala"
-    
-      if((error as any)?.data?.message){
-        errorMessage = (error as any).data?.message;
+    onError: async (error) => {
+      let errorMessage: string = 'Erro ao criar Sala'
+
+      if ((error as any)?.data?.message) {
+        errorMessage = (error as any).data?.message
       }
-        
+
       toast.error('Erro ao Criar Sala', {
         description: errorMessage,
-      });
+      })
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: roomQueryKeys.all })

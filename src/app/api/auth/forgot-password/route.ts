@@ -32,10 +32,12 @@ export async function POST(request: Request) {
       },
       data: existingUser,
     })
-    return NextResponse.json({
-      message: 'Serviço de email temporariamente desabilitado',
-    },
-    { status: 400 })
+    return NextResponse.json(
+      {
+        message: 'Serviço de email temporariamente desabilitado',
+      },
+      { status: 400 },
+    )
     // return NextResponse.json({ message: resetUrl })
     // const body = `Reset sua senha clicando <a href="${resetUrl}">${resetUrl}</a>`
     // const msg = {

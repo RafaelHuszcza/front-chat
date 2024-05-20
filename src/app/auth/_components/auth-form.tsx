@@ -71,7 +71,7 @@ export function AuthForm() {
               type="text"
               {...register('email')}
             />
-            <ErrorMessage  errors={errors} name="email" />
+            <ErrorMessage errors={errors} name="email" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Senha:</Label>
@@ -80,35 +80,35 @@ export function AuthForm() {
               placeholder="Insira sua senha"
               {...register('password')}
             />
-            <ErrorMessage
-              errors={errors}
-              name="password"
-            />
+            <ErrorMessage errors={errors} name="password" />
           </div>
-          <div className=' w-full space-y-4 pt-4'>
-          <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting ? (
-              <LoaderCircle className="animate-spin" />
-            ) : (
-              'Entrar'
-            )}
-          </Button>
-         
-          <div className="text-center">
-            <Link
-              className="underline hover:text-primary"
-              href="/auth/forgot-password"
+          <div className=" w-full space-y-4 pt-4">
+            <Button type="submit" disabled={isSubmitting} className="w-full">
+              {isSubmitting ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                'Entrar'
+              )}
+            </Button>
+
+            <div className="text-center">
+              <Link
+                className="underline hover:text-primary"
+                href="/auth/forgot-password"
+              >
+                Esqueceu sua senha?
+              </Link>
+            </div>
+
+            <Button
+              type="button"
+              asChild
+              disabled={isSubmitting}
+              variant="outline"
+              className="w-full"
             >
-              Esqueceu sua senha?
-            </Link>
-          </div>
-         
-          <Button type="button" asChild disabled={isSubmitting} variant='outline' className="w-full">
-           <Link href="/auth/register">
-              Cadastrar
-            </Link> 
-          </Button>
-        
+              <Link href="/auth/register">Cadastrar</Link>
+            </Button>
           </div>
         </form>
       </CardContent>

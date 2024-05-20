@@ -8,7 +8,6 @@ import { roomsRoute } from '../routes'
 import { roomQueryKeys } from './room-query-keys'
 export interface Room {
   subject: string
-
 }
 export function useEditRoom() {
   const { id } = useParams()

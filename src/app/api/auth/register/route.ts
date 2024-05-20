@@ -1,13 +1,15 @@
 import { hash } from 'bcrypt'
 import { NextResponse } from 'next/server'
+import { z } from 'zod'
 
 import { prisma } from '@/services/database'
-import { z } from 'zod'
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const existingUser = await prisma.user.findFirst({ where: { email: body.email } })
+    const existingUser = await prisma.user.findFirst({
+      where: { email: body.email },
+    })
     if (existingUser) {
       return NextResponse.json(
         { message: 'Usuário já registrado' },
@@ -15,7 +17,9 @@ export async function POST(request: Request) {
       )
     }
     const userSchema = z.object({
-      name: z.string({ required_error: 'Nome é requerido' }).min(3, 'O Nome deve conter mais de 3 caracteres'),
+      name: z
+        .string({ required_error: 'Nome é requerido' })
+        .min(3, 'O Nome deve conter mais de 3 caracteres'),
       email: z
         .string({ required_error: 'Email é requerido' })
         .email('Email Inválido'),

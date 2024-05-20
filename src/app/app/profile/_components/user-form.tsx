@@ -2,9 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoaderCircle } from 'lucide-react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import z from 'zod'
@@ -15,7 +13,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ZCOOL_KuaiLe } from 'next/font/google'
 
 export interface DefaultValues {
   name: string
@@ -23,35 +20,44 @@ export interface DefaultValues {
 }
 interface UserFormProps {
   defaultValues: DefaultValues
-  id : string
+  id: string
 }
-export function UserForm({defaultValues, id}: UserFormProps) {
+export function UserForm({ defaultValues, id }: UserFormProps) {
   const router = useRouter()
-  const formSchema = z.object({
-    name: z.string({ required_error: 'Nome é requerido' }).min(3, 'O Nome deve conter mais de 3 caracteres'),
-    email: z
-      .string({ required_error: 'Email é requerido' })
-      .email('Email Inválido'),
-    password: z
-      .string().optional(),
-    confirmPassword: z.string().optional(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'As senhas não coincidem',
-    path: ['confirmPassword'],
-  }).refine((data) => {
-    if (data?.password === "") {
-      return true; 
-    }
-    if (!data?.password) {
-      return true;
-    }
-      return data?.password?.length >= 6 && /^(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$/.test(data?.password);
-    
-  }, {
-    message: 'A senha precisa ter no mínimo 6 caracteres e conter pelo menos 1 caractere especial e 1 número',
-    path: ['password'],
-  });
+  const formSchema = z
+    .object({
+      name: z
+        .string({ required_error: 'Nome é requerido' })
+        .min(3, 'O Nome deve conter mais de 3 caracteres'),
+      email: z
+        .string({ required_error: 'Email é requerido' })
+        .email('Email Inválido'),
+      password: z.string().optional(),
+      confirmPassword: z.string().optional(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: 'As senhas não coincidem',
+      path: ['confirmPassword'],
+    })
+    .refine(
+      (data) => {
+        if (data?.password === '') {
+          return true
+        }
+        if (!data?.password) {
+          return true
+        }
+        return (
+          data?.password?.length >= 6 &&
+          /^(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,20}$/.test(data?.password)
+        )
+      },
+      {
+        message:
+          'A senha precisa ter no mínimo 6 caracteres e conter pelo menos 1 caractere especial e 1 número',
+        path: ['password'],
+      },
+    )
 
   type FormData = z.infer<typeof formSchema>
 
@@ -59,7 +65,7 @@ export function UserForm({defaultValues, id}: UserFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: defaultValues.name ?? '',
-      email:  defaultValues.email ?? '',
+      email: defaultValues.email ?? '',
       password: '',
       confirmPassword: '',
     },
@@ -72,11 +78,11 @@ export function UserForm({defaultValues, id}: UserFormProps) {
   } = form
 
   const onSubmit = handleSubmit(async (data: FormData) => {
-    const dataToSend = {...data}
+    const dataToSend = { ...data }
     delete dataToSend.confirmPassword
 
-    if (data.password === "") {
-      delete dataToSend.password;
+    if (data.password === '') {
+      delete dataToSend.password
     }
     const response = await fetch(`/api/users/${id}`, {
       headers: {
@@ -101,11 +107,13 @@ export function UserForm({defaultValues, id}: UserFormProps) {
   return (
     <Card className="mx-auto h-auto w-full max-w-[90%] border-2  border-primary sm:max-w-[30rem]">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-center text-2xl font-bold">Editar Usuário</CardTitle>
+        <CardTitle className="text-center text-2xl font-bold">
+          Editar Usuário
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form className="space-y-2" onSubmit={onSubmit}>
-        <div className="space-y-2">
+          <div className="space-y-2">
             <Label htmlFor="login">Nome</Label>
             <Input
               id="name"
@@ -113,7 +121,7 @@ export function UserForm({defaultValues, id}: UserFormProps) {
               type="text"
               {...register('name')}
             />
-            <ErrorMessage  errors={errors} name="name" />
+            <ErrorMessage errors={errors} name="name" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="login">E-mail</Label>
@@ -123,7 +131,7 @@ export function UserForm({defaultValues, id}: UserFormProps) {
               type="text"
               {...register('email')}
             />
-            <ErrorMessage  errors={errors} name="email" />
+            <ErrorMessage errors={errors} name="email" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Senha:</Label>
@@ -132,10 +140,7 @@ export function UserForm({defaultValues, id}: UserFormProps) {
               placeholder="Insira sua senha"
               {...register('password')}
             />
-            <ErrorMessage
-              errors={errors}
-              name="password"
-            />
+            <ErrorMessage errors={errors} name="password" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Confirmar Senha:</Label>
@@ -144,19 +149,16 @@ export function UserForm({defaultValues, id}: UserFormProps) {
               placeholder="Insira sua senha novamente"
               {...register('confirmPassword')}
             />
-            <ErrorMessage
-              errors={errors}
-              name="confirmPassword"
-            />
+            <ErrorMessage errors={errors} name="confirmPassword" />
           </div>
-          <div className=' w-full space-y-4 pt-4'>
-          <Button type="submit" disabled={isSubmitting} className="w-full">
-            {isSubmitting ? (
-              <LoaderCircle className="animate-spin" />
-            ) : (
-              'Editar Usuário'
-            )}
-          </Button>
+          <div className=" w-full space-y-4 pt-4">
+            <Button type="submit" disabled={isSubmitting} className="w-full">
+              {isSubmitting ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                'Editar Usuário'
+              )}
+            </Button>
           </div>
         </form>
       </CardContent>

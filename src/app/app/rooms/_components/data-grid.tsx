@@ -8,9 +8,9 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 
+import { Room } from '../_data/schema'
 import { DataGridToolbar } from './data-grid-toolbar'
 import { RoomsCard } from './rooms-card'
-import { Room } from '../_data/schema'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -35,14 +35,14 @@ export function DataGrid<TData, TValue>({
   })
 
   return (
-    <div className="space-y-4 pt-8 flex flex-col flex-1 h-full">
+    <div className="flex h-full flex-1 flex-col space-y-4 pt-8">
       <DataGridToolbar table={table} />
-      <div className="flex w-full h-full justify-center flex-wrap gap-4  content-start overflow-auto">
+      <div className="flex h-full w-full flex-wrap content-start justify-center  gap-4 overflow-auto">
         {table.getRowModel().rows?.length > 0 &&
           table.getRowModel().rows.map((row) => {
             const room = row.getVisibleCells()[0].row.original as Room
 
-            return <RoomsCard key={row.id}  room={room}/>
+            return <RoomsCard key={row.id} room={room} />
           })}
       </div>
     </div>
