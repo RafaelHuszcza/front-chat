@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres-chat
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+
+  
+  # chat-front:
+  #   build:
+  #     context: .
+  #   container_name: ajuda-rg
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     - NEXTAUTH_URL=${NEXTAUTH_URL}
+  #     - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+  #     - NEXT_PUBLIC_URL=${NEXT_PUBLIC_URL}
+  #     - NODE=${NODE}
+  #     - DATABASE_URL=${DATABASE_URL}
+
+      
