@@ -91,14 +91,14 @@ export function AuthForm() {
               )}
             </Button>
 
-            <div className="text-center">
+            {/* <div className="text-center">
               <Link
                 className="underline hover:text-primary"
                 href="/auth/forgot-password"
               >
                 Esqueceu sua senha?
               </Link>
-            </div>
+            </div> */}
 
             <Button
               type="button"

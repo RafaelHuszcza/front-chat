@@ -15,7 +15,6 @@ const createRoomFn = async (newRoom: Room) => {
     return response.data
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      // Lança o erro com a resposta completa
       throw error.response
     } else {
       throw error
@@ -37,12 +36,21 @@ export function useCreateRoom() {
       })
       router.push(`/app/rooms/${data.id}`)
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     onError: async (error) => {
       let errorMessage: string = 'Erro ao criar Sala'
-
-      if ((error as any)?.data?.message) {
-        errorMessage = (error as any).data?.message
+      if (
+        (
+          error as unknown as {
+            data: { message: string }
+          }
+        )?.data?.message
+      ) {
+        errorMessage = (
+          error as unknown as {
+            data: { message: string }
+          }
+        )?.data?.message
       }
 
       toast.error('Erro ao Criar Sala', {
