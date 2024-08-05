@@ -30,7 +30,7 @@ export function CopyButton({
   return (
     <Button
       variant={variant}
-      className={cn('', className)}
+      className={cn('space-x-2', className)}
       onClick={() => {
         copyToClipboardWithMeta(value)
         setHasCopied(true)

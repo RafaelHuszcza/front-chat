@@ -26,10 +26,10 @@ export function Header() {
   return (
     <header className="h-20 border-b-[1px] bg-background">
       <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
+        className="mx-auto flex max-w-7xl items-center justify-end p-4 lg:px-8 sm:justify-between"
         aria-label="Global"
       >
-        <div className="flex lg:flex-1">
+        <div className="hidden lg:flex-1 sm:flex">
           <Button variant="default" asChild className={cn('p-6')}>
             <Link href="/">
               <h1 className="text-xl font-bold">Chat Distribuído</h1>
