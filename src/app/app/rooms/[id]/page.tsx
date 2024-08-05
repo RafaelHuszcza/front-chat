@@ -1,3 +1,5 @@
+import { Chat } from '../_components/chat'
+
 export default function Page({ params }: { params: { id: string } }) {
-  return <div>dadsadasdasdasda</div>
+  return <Chat id={params.id} />
 }
