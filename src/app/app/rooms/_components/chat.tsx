@@ -158,7 +158,6 @@ export function Chat({ id }: { id: string }) {
       email: 'asdsad@gmail.com',
       id: '21321',
     },
-
   ]
   const messages: Message[] = [
     {
@@ -231,10 +230,10 @@ export function Chat({ id }: { id: string }) {
     <div className="flex h-full w-full flex-1">
       <OnlineMembersAside members={members} />
       <div className="flex w-full flex-col">
-        <Header room={room}  members={members}/>
+        <Header room={room} members={members} />
         <Messages messages={messages} userId={data.user.id} />
-        <div className='pb-4 pl-4 pr-4'>
-        <Form />
+        <div className="pb-4 pl-4 pr-4">
+          <Form />
         </div>
       </div>
       {/* <p>{id}</p>

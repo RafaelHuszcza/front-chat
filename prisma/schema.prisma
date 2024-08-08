@@ -19,14 +19,26 @@ model User {
   resetTokenExpiry DateTime?
   resetToken       String?
   roomId           String?
+  Message          Message[]
 }
 
 model Room {
-  id        String   @id @default(cuid())
-  owner     User     @relation("Owner", fields: [ownerId], references: [id])
+  id        String    @id @default(cuid())
+  owner     User      @relation("Owner", fields: [ownerId], references: [id])
   subject   String
   ownerId   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  members   User[]    @relation("Member")
+  Message   Message[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  room      Room     @relation(fields: [roomId], references: [id])
+  roomId    String
+  content   String
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  members   User[]   @relation("Member")
 }
