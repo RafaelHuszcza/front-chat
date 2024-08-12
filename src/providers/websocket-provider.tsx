@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useState } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 
 interface WebSocketContextValue {
   createConnection: (roomId: string, userId: string) => WebSocket | null
@@ -25,74 +25,75 @@ interface WebSocketProviderProps {
 export function WebSocketProvider({ children }: WebSocketProviderProps) {
   const [currentSocket, setCurrentSocket] = useState<WebSocket | null>(null)
   const [reconnecting, setReconnecting] = useState(true)
-  const emitChatMessage = useCallback(
-    (roomId: string, userId: string, content: string) => {
-      if (!currentSocket) {
-        console.log('No socket connection')
-        return
-      }
-      const message = {
-        type: 'message',
-        content,
-        authorId: userId,
-        roomId,
-      }
-      currentSocket.send(JSON.stringify(message))
-    },
-    [currentSocket],
-  )
-  console.log('reconnecting', reconnecting)
+  // useEffect(() => {
+  //   return () => {
+  //     if (currentSocket) {
+  //       currentSocket.disconnect()
+  //       setCurrentSocket(null)
+  //     }
+  //   }
+  // }, [currentSocket])
+
+  const emitChatMessage = (roomId: string, userId: string, content: string) => {
+    if (!currentSocket) {
+      console.log('No socket connection')
+      return
+    }
+
+    const message = {
+      type: 'message',
+      content,
+      authorId: userId,
+      roomId,
+    }
+    currentSocket.send(JSON.stringify(message))
+  }
   const createConnection = (
     roomId: string,
     userId: string,
   ): WebSocket | null => {
     if (!roomId) return null
     if (currentSocket) return null
-    try {
-      const url = process.env.NEXT_PUBLIC_WEBSOCKET_URL
-      if (!url) {
-        console.error('WebSocket URL not found')
-        return null
-      }
-      const socket: WebSocket = new WebSocket(url)
-      socket.onopen = () => {
-        if (reconnecting) {
-          setReconnecting(false)
-        }
-        const message = {
-          type: 'join',
-          content: '',
-          authorId: userId,
-          roomId,
-        }
-        socket.send(JSON.stringify(message))
-        console.log('WebSocket connection established')
-      }
-
-      socket.onclose = (event) => {
-        if (!reconnecting) {
-          setReconnecting(true)
-        }
-        const message = {
-          type: 'leave',
-          content: '',
-          authorId: userId,
-          roomId,
-        }
-        socket.send(JSON.stringify(message))
-        console.log('WebSocket connection closed:', event)
-      }
-      socket.onerror = (error) => {
-        if (!reconnecting) {
-          setReconnecting(true)
-        }
-        console.error('WebSocket connection error:', error)
-      }
-      return socket
-    } catch (error) {
-      console.error('Error creating connection:', error)
+    const url = process.env.NEXT_PUBLIC_WEBSOCKET_URL
+    if (!url) {
+      console.error('WebSocket URL not found')
       return null
     }
+    const socket: WebSocket = new WebSocket(url)
+    socket.onopen = () => {
+      if (reconnecting) {
+        setReconnecting(false)
+      }
+      const message = {
+        type: 'join',
+        content: '',
+        authorId: userId,
+        roomId,
+      }
+      socket.send(JSON.stringify(message))
+      console.log('WebSocket connection established')
+    }
+
+    socket.onclose = (event) => {
+      if (!reconnecting) {
+        setReconnecting(true)
+      }
+      const message = {
+        type: 'leave',
+        content: '',
+        authorId: userId,
+        roomId,
+      }
+      socket.send(JSON.stringify(message))
+      console.log('WebSocket connection closed:', event)
+    }
+    socket.onerror = (error) => {
+      if (!reconnecting) {
+        setReconnecting(true)
+      }
+      console.error('WebSocket connection error:', error)
+    }
+    return socket
   }
 
   const endConnection = () => {

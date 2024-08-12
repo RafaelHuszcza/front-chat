@@ -7,17 +7,24 @@ import {
   useState,
 } from 'react'
 
-export interface Message {
-  id: number
-  authorId: string
-  roomId: string
-  content: string
-  type: string
-  author: {
-    name: string
-  }
-  createdAt: string
-}
+import { Member } from '@/app/app/rooms/_components/chat'
+
+export type Message =
+  | {
+      id: number
+      authorId: string
+      roomId: string
+      content: string
+      type: string
+      author: {
+        name: string
+      }
+      createdAt: string
+    }
+  | {
+      type: string
+      content: Member[]
+    }
 
 type ChatMessagesContextType = {
   messages: Message[]

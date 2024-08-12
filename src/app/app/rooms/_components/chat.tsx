@@ -74,7 +74,7 @@ export function Chat({
     const message = JSON.parse(event.data)
     console.log('Received message:', message)
     if (message.type === 'members') {
-      setMembers(message.members)
+      setMembers(message.content)
     } else if (
       message.type === 'message' ||
       message.type === 'join' ||
