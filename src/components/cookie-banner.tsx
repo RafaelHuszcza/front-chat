@@ -1,31 +1,34 @@
-"use client"
-import { useEffect, useState } from 'react';
-import { Button } from "@/components/ui/button";
-import Link from 'next/link';
+'use client'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+
+import { Button } from '@/components/ui/button'
 
 export default function CookieBanner() {
-  const [showBanner, setShowBanner] = useState(false);
+  const [showBanner, setShowBanner] = useState(false)
 
   useEffect(() => {
     // Verifica se o cookie de aceitação está presente
-    const cookies = document.cookie.split('; ');
-    const cookieExists = cookies.some(cookie => cookie.startsWith('cookieAccepted='));
+    const cookies = document.cookie.split('; ')
+    const cookieExists = cookies.some((cookie) =>
+      cookie.startsWith('cookieAccepted='),
+    )
 
     if (!cookieExists) {
-      setShowBanner(true);
+      setShowBanner(true)
     }
-  }, []);
+  }, [])
   const refuseCookies = () => {
-    // Define o cookie para expirar em 2 dias 
-    document.cookie = "cookieAccepted=false; max-age=172800; path=/";
-    setShowBanner(false);
+    // Define o cookie para expirar em 2 dias
+    document.cookie = 'cookieAccepted=false; max-age=172800; path=/'
+    setShowBanner(false)
   }
 
   const acceptCookies = () => {
     // Define o cookie para expirar em 1 ano
-    document.cookie = "cookieAccepted=true; max-age=31536000; path=/";
-    setShowBanner(false);
-  };
+    document.cookie = 'cookieAccepted=true; max-age=31536000; path=/'
+    setShowBanner(false)
+  }
 
   return (
     showBanner && (
@@ -34,8 +37,12 @@ export default function CookieBanner() {
           <div className="space-y-2 text-center md:text-left">
             <h3 className="text-lg font-semibold">Usamos cookies</h3>
             <p className="text-muted-foreground">
-              Usamos cookies para melhorar sua experiência em nosso site. Ao continuar a usar nosso site, você concorda com nossa
-              política de cookies. <Link href="/privacy" className="underline">Saiba mais</Link>
+              Usamos cookies para melhorar sua experiência em nosso site. Ao
+              continuar a usar nosso site, você concorda com nossa política de
+              cookies.{' '}
+              <Link href="/privacy" className="underline">
+                Saiba mais
+              </Link>
             </p>
           </div>
           <div className="flex flex-col items-center gap-2 md:flex-row">
@@ -49,5 +56,5 @@ export default function CookieBanner() {
         </div>
       </div>
     )
-  );
+  )
 }

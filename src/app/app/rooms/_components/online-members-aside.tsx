@@ -46,10 +46,9 @@ export default function OnlineMembersAside({ members }: { members: Member[] }) {
         >
           Membros
         </h2>
-        <p className={cn([
-            'font-semibold ',
-            collapsed ? 'hidden' : '',
-          ])} >{members.length}</p>
+        <p className={cn(['font-semibold ', collapsed ? 'hidden' : ''])}>
+          {members.length}
+        </p>
         <Users className=" block sm:hidden" />
         <Button
           variant="ghost"

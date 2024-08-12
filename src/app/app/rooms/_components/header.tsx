@@ -15,9 +15,10 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { Member, Room } from './chat'
+} from '@/components/ui/tooltip'
 import { truncateText } from '@/helpers/truncat-text'
+
+import { Member, Room } from './chat'
 
 export function Header({
   room,
@@ -33,8 +34,6 @@ export function Header({
     setShowUsers((prev) => !prev)
   }
 
-  
-
   return (
     <header className="flex h-12 items-center justify-between   border-b px-4">
       <Button
@@ -47,7 +46,9 @@ export function Header({
       <Dialog open={showUsers} onOpenChange={toggleShowUsers}>
         <DialogContent className="flex max-h-[70%] w-auto flex-col overflow-auto rounded-sm p-8">
           <DialogHeader>
-            <DialogTitle className="text-center">Lista de membros - {members.length}</DialogTitle>
+            <DialogTitle className="text-center">
+              Lista de membros - {members.length}
+            </DialogTitle>
           </DialogHeader>
           <main className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden p-4">
             {members.map((member) => (
@@ -67,16 +68,16 @@ export function Header({
         </DialogContent>
       </Dialog>
       <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-        <h3 className="w-full">{truncateText(room.subject, 10)}</h3>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{room.subject}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
-      
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <h3 className="w-full">{truncateText(room.subject, 10)}</h3>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>{room.subject}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       <CopyButton variant="ghost" text="Copiar id" value={room.id} />
       <Button variant="destructive" onClick={leaveRoom}>
         Sair

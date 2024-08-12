@@ -1,15 +1,15 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
+import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Footer } from '@/components/footer'
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog"
 export default function Home() {
   const router = useRouter()
   const [imageModal, setImageModal] = useState(false)
@@ -49,28 +49,25 @@ export default function Home() {
                 width="450"
                 height="200"
                 alt="Chat-distribuído"
-                className="aspect-video object-contain rounded-xl  sm:w-full lg:order-last cursor-zoom-in image-zoom"
+                className="image-zoom aspect-video cursor-zoom-in  rounded-xl object-contain sm:w-full lg:order-last"
                 onClick={() => setImageModal2(true)}
               />
               {imageModal2 && (
-        <Dialog open={imageModal2} onOpenChange={closeImageModal2}>
-          <DialogContent className="p-0 max-w-[90vw] max-h-[90vh] overflow-hidden rounded-lg">
-            <div className="relative w-full h-full flex justify-center">
-              <Image
-                src="/example-mobile.png"
-                width="450"
-                height="1920"
-                alt="Chat-distribuído"
-                className="object-center"
-              />
-              <div>
-               
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
-    
+                <Dialog open={imageModal2} onOpenChange={closeImageModal2}>
+                  <DialogContent className="max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg p-0">
+                    <div className="relative flex h-full w-full justify-center">
+                      <Image
+                        src="/example-mobile.png"
+                        width="450"
+                        height="1920"
+                        alt="Chat-distribuído"
+                        className="object-center"
+                      />
+                      <div></div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              )}
             </div>
           </div>
         </section>
@@ -99,28 +96,25 @@ export default function Home() {
                 width="1280"
                 height="1920"
                 alt="Chat-distribuído"
-                className="aspect-video  rounded-xl object-cover object-center sm:w-full hidden sm:block lg:order-last cursor-zoom-in image-zoom "
+                className="image-zoom  hidden aspect-video cursor-zoom-in rounded-xl object-cover object-center sm:block sm:w-full lg:order-last "
                 onClick={() => setImageModal(true)}
               />
               {imageModal && (
-        <Dialog open={imageModal} onOpenChange={closeImageModal}>
-          <DialogContent className="p-0 max-w-[90vw] max-h-[90vh] overflow-hidden rounded-lg">
-            <div className="relative w-full h-full">
-              <Image
-                src="/example.png"
-                width={1280}
-                height={1920}
-                alt="Chat-distribuído"
-                className="w-full h-full object-contain"
-              />
-              <div>
-               
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
-    
+                <Dialog open={imageModal} onOpenChange={closeImageModal}>
+                  <DialogContent className="max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg p-0">
+                    <div className="relative h-full w-full">
+                      <Image
+                        src="/example.png"
+                        width={1280}
+                        height={1920}
+                        alt="Chat-distribuído"
+                        className="h-full w-full object-contain"
+                      />
+                      <div></div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              )}
 
               <div className="flex flex-col justify-center space-y-4">
                 <ul className="grid gap-6">
@@ -197,7 +191,10 @@ export default function Home() {
               </p>
             </div>
             <div className="mx-auto w-full max-w-sm space-y-2">
-              <form className="flex gap-2" onSubmit={()=> router.push("/auth")}>
+              <form
+                className="flex gap-2"
+                onSubmit={() => router.push('/auth')}
+              >
                 <Input
                   type="email"
                   placeholder="Informe seu e-mail"
@@ -219,7 +216,7 @@ export default function Home() {
           </div>
         </section>
       </main>
-      <Footer/>
+      <Footer />
     </>
   )
 }

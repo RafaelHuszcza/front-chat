@@ -1,7 +1,13 @@
 'use client'
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 
-export interface Message  {
+export interface Message {
   id: number
   authorId: string
   roomId: string
@@ -32,26 +38,24 @@ interface ChatMessagesContextProviderProps {
 const ChatMessagesProvider = ({
   children,
 }: ChatMessagesContextProviderProps) => {
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (typeof window === 'undefined') return []
 
-  const [messages, setMessages] = useState<Message[]>(()=>{
-    if (typeof window === "undefined") return [];
-    
-    const storedMessages = window.localStorage.getItem('chatMessages');
+    const storedMessages = window.localStorage.getItem('chatMessages')
     if (storedMessages) {
       try {
-        return JSON.parse(storedMessages) as Message[];
+        return JSON.parse(storedMessages) as Message[]
       } catch (error) {
-        console.error('Failed to parse messages:', error);
-        return [];
+        console.error('Failed to parse messages:', error)
+        return []
       }
     }
-    return [];
-  });
+    return []
+  })
 
-  
   useEffect(() => {
-      localStorage.setItem('chatMessages', JSON.stringify(messages));
-    }, [messages]);
+    localStorage.setItem('chatMessages', JSON.stringify(messages))
+  }, [messages])
 
   function appendMessage(message: Message) {
     setMessages((prev) => [...prev, message])

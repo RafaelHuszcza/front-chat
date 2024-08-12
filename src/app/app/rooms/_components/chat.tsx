@@ -1,7 +1,7 @@
 'use client'
 
 import { LoaderIcon } from 'lucide-react'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Session } from 'next-auth'
 import { useEffect, useRef, useState } from 'react'
 
@@ -34,7 +34,7 @@ export function Chat({
 }) {
   const { createConnection, currentSocket, setCurrentSocket, reconnecting } =
     useWebSocket()
-    const initialCheckDone = useRef(false);
+  const initialCheckDone = useRef(false)
   const [members, setMembers] = useState<Member[]>([])
 
   const { messages, clearMessages, appendMessage } = useMessages()
@@ -42,24 +42,7 @@ export function Chat({
   const router = useRouter()
   useEffect(() => {
     if (!room || !isSuccess) return
-    //TODO : Remover mock de membros e verificar conexão com websocket
-    // setMembers([
-    //   {
-    //     name: "Rafael Machado",
-    //     email : "rafaelhuszcza@gmail.com",
-    //     id: session.user.id,
-    //   },
-    //   {
-    //     name: "Luan Simões",
-    //     email : "luansds@gmail.com",
-    //     id: "aa",
-    //   },
-    //   {
-    //     name: "Leonardo Silva",
-    //     email : "leosinhosdsilva@gmail.com",
-    //     id: "bb",
-    //   },
-    // ])
+
     const socket = createConnection(room.id, session.user.id)
     if (socket) {
       setCurrentSocket(socket)
@@ -72,20 +55,19 @@ export function Chat({
     setCurrentSocket,
     currentSocket,
   ])
-  
 
   useEffect(() => {
     if (!initialCheckDone.current) {
       for (let i = 0; i < messages.length; i++) {
         if (messages[i].roomId !== roomId) {
-          clearMessages();
-          break;
+          clearMessages()
+          break
         }
       }
-      initialCheckDone.current = true;
+      initialCheckDone.current = true
     }
-  }, [messages, roomId, clearMessages]);
-  if(isError) router.push('/app/rooms/not-found')
+  }, [messages, roomId, clearMessages])
+  if (isError) router.push('/app/rooms/not-found')
   if (!currentSocket) return 'Carregando...'
 
   currentSocket.onmessage = (event) => {
@@ -105,7 +87,7 @@ export function Chat({
     clearMessages()
     router.push('/app/rooms')
   }
- 
+
   return (
     <>
       {reconnecting && (
@@ -145,7 +127,7 @@ export function Chat({
             <Header room={room} members={members} leaveRoom={leaveRoom} />
             <Messages messages={messages} userId={session.user.id} />
             <div className="pb-4 pl-4 pr-4">
-              <Form roomId={room.id} userId={session.user.id}/>
+              <Form roomId={room.id} userId={session.user.id} />
             </div>
           </div>
         </div>
