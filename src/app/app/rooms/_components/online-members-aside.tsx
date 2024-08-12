@@ -15,20 +15,20 @@ export default function OnlineMembersAside({ members }: { members: Member[] }) {
   }
   const handleResize = () => {
     if (window.innerWidth < 640) {
-      setCollapsed(true);
+      setCollapsed(true)
     }
-  };
+  }
   useEffect(() => {
-    handleResize(); 
-    window.addEventListener('resize', handleResize);
+    handleResize()
+    window.addEventListener('resize', handleResize)
     return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
   return (
     <aside
       className={cn(
-        'w-64 flex-col border-r duration-500 hidden sm:flex',
+        'hidden w-64 flex-col border-r duration-500 sm:flex',
         collapsed ? 'w-16' : 'w-72',
       )}
     >
@@ -46,8 +46,16 @@ export default function OnlineMembersAside({ members }: { members: Member[] }) {
         >
           Membros
         </h2>
+        <p className={cn([
+            'font-semibold ',
+            collapsed ? 'hidden' : '',
+          ])} >{members.length}</p>
         <Users className=" block sm:hidden" />
-        <Button variant="ghost" className="hidden sm:block" onClick={toggleCollapsed}>
+        <Button
+          variant="ghost"
+          className="hidden sm:block"
+          onClick={toggleCollapsed}
+        >
           <MenuIcon />
         </Button>
       </header>
