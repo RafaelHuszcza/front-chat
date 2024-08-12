@@ -37,8 +37,9 @@ model Message {
   id        String   @id @default(cuid())
   author    User     @relation(fields: [authorId], references: [id])
   authorId  String
-  room      Room     @relation(fields: [roomId], references: [id])
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId    String
+  type      String
   content   String
   createdAt DateTime @default(now())
 }
