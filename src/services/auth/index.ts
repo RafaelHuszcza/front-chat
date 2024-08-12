@@ -13,6 +13,7 @@ declare module 'next-auth' {
       name: string
       image?: string
     }
+    sub: string
   }
 }
 
@@ -95,6 +96,7 @@ export const authOptions: NextAuthOptions = {
           name: token.name,
           email: token.email,
         },
+        sub: token.sub,
       }
     },
   },
