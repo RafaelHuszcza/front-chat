@@ -5,6 +5,7 @@ import { Inter as FontSans } from 'next/font/google'
 
 import { cn } from '@/lib/utils'
 import { Providers } from '@/providers'
+import CookieBanner from '@/components/cookie-banner'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -21,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" suppressHydrationWarning={true}>
       <body
         className={cn(
           'h-screen min-h-screen bg-background font-sans antialiased',
@@ -29,6 +30,7 @@ export default function RootLayout({
         )}
       >
         <Providers>{children}</Providers>
+        <CookieBanner />
       </body>
     </html>
   )
