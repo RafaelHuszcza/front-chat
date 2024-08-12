@@ -18,7 +18,7 @@ export async function DELETE(
   }
   if (!params.id) {
     return new NextResponse(
-      JSON.stringify({ message: 'Usuário não encontrado' }),
+      JSON.stringify({ message: 'Sala não encontrado' }),
       {
         status: 404,
       },
@@ -39,54 +39,7 @@ export async function DELETE(
     where: { id: params.id },
   })
 
-  return NextResponse.json({ message: 'Usuário deletado com sucesso' })
-}
-
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } },
-) {
-  const session = await getServerSessionWithAuth()
-  if (!session || !session.user?.id) {
-    return new NextResponse(
-      JSON.stringify({ error: 'Usuário não autorizado' }),
-      {
-        status: 401,
-      },
-    )
-  }
-  if (!params.id) {
-    return new NextResponse(
-      JSON.stringify({ message: 'Usuário não encontrado' }),
-      {
-        status: 404,
-      },
-    )
-  }
-  const room = await prisma.room.findFirst({
-    where: {
-      id: params.id,
-    },
-    include: {
-      _count: { select: { members: true } },
-    },
-  })
-  console.log(room)
-  if (!room || room.ownerId !== session.user.id) {
-    return new NextResponse(JSON.stringify({ error: 'Sala não encontrada' }), {
-      status: 404,
-    })
-  }
-  if (!room) {
-    return new NextResponse(JSON.stringify({ error: 'Sala não encontrada' }), {
-      status: 404,
-    })
-  }
-  await prisma.room.delete({
-    where: { id: params.id },
-  })
-
-  return NextResponse.json({ message: 'Usuário deletado com sucesso' })
+  return NextResponse.json({ message: 'Sala deletado com sucesso' })
 }
 
 export async function GET(
@@ -95,6 +48,7 @@ export async function GET(
 ) {
   const session = await getServerSessionWithAuth()
   if (!session || !session.user?.id) {
+    console.log('Usuário não autorizado')
     return new NextResponse(
       JSON.stringify({ error: 'Usuário não autorizado' }),
       {
@@ -104,35 +58,27 @@ export async function GET(
   }
   if (!params.id) {
     return new NextResponse(
-      JSON.stringify({ message: 'Usuário não encontrado' }),
+      JSON.stringify({ message: 'Sala não encontrada' }),
       {
         status: 404,
       },
     )
   }
-  if (session.user.id !== params.id) {
-    return new NextResponse(
-      JSON.stringify({ error: 'Usuário não autorizado' }),
-      {
-        status: 401,
-      },
-    )
-  }
 
-  const user = await prisma.user.findFirst({
-    where: { id: session.user.id },
+  const room = await prisma.room.findFirst({
+    where: { id: params.id },
     select: {
-      email: true,
-      name: true,
+      id: true,
+      subject: true,
     },
   })
-  if (!user) {
+  if (!room) {
     return new NextResponse(
-      JSON.stringify({ error: 'Usuário não encontrado' }),
+      JSON.stringify({ error: 'Sala Não não encontrado' }),
       {
-        status: 401,
+        status: 404,
       },
     )
   }
-  return NextResponse.json(user)
+  return NextResponse.json(room)
 }

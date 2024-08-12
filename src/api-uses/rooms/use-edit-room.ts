@@ -31,8 +31,8 @@ export function useEditRoom() {
       return { previousRoom, updatedRoom }
     },
     onSuccess: () => {
-      toast.success('Room', {
-        description: 'Room editado com sucesso',
+      toast.success('Sala', {
+        description: 'Sala editado com sucesso',
       })
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

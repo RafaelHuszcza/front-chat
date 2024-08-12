@@ -18,14 +18,14 @@ export function useDeleteRoom() {
       await queryClient.cancelQueries({ queryKey: roomQueryKeys.all })
     },
     onSuccess: () => {
-      toast.success('Excluir Room', {
-        description: 'Room excluído com sucesso',
+      toast.success('Excluir Sala', {
+        description: 'Sala excluído com sucesso',
       })
     },
     onError: () => {
       queryClient.invalidateQueries({ queryKey: roomQueryKeys.all })
-      toast.error('Erro ao excluir Room', {
-        description: 'Erro ao excluir Room',
+      toast.error('Erro ao excluir Sala', {
+        description: 'Erro ao excluir Sala',
       })
     },
     onSettled: () => {
