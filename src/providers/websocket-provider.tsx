@@ -41,7 +41,7 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
     },
     [currentSocket],
   )
-
+  console.log('reconnecting', reconnecting)
   const createConnection = (
     roomId: string,
     userId: string,
@@ -49,7 +49,12 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
     if (!roomId) return null
     if (currentSocket) return null
     try {
-      const socket = new WebSocket(`ws://localhost:3333/`)
+      const url = process.env.NEXT_PUBLIC_WEBSOCKET_URL
+      if (!url) {
+        console.error('WebSocket URL not found')
+        return null
+      }
+      const socket: WebSocket = new WebSocket(url)
       socket.onopen = () => {
         if (reconnecting) {
           setReconnecting(false)
