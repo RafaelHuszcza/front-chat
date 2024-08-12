@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
 interface WebSocketContextValue {
   createConnection: (roomId: string, userId: string) => WebSocket | null
@@ -25,14 +25,14 @@ interface WebSocketProviderProps {
 export function WebSocketProvider({ children }: WebSocketProviderProps) {
   const [currentSocket, setCurrentSocket] = useState<WebSocket | null>(null)
   const [reconnecting, setReconnecting] = useState(true)
-  // useEffect(() => {
-  //   return () => {
-  //     if (currentSocket) {
-  //       currentSocket.disconnect()
-  //       setCurrentSocket(null)
-  //     }
-  //   }
-  // }, [currentSocket])
+  useEffect(() => {
+    return () => {
+      if (currentSocket) {
+        currentSocket.close()
+        setCurrentSocket(null)
+      }
+    }
+  }, [currentSocket])
 
   const emitChatMessage = (roomId: string, userId: string, content: string) => {
     if (!currentSocket) {

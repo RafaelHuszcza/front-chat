@@ -39,7 +39,7 @@ export function RoomsCard({ room }: RoomsCardProps) {
       </TooltipProvider>
 
       <Button asChild>
-        <Link href={`/app/rooms/${room.id}`} scroll={false}>
+        <Link href={`/app/rooms/${room.id}`} scroll={false} prefetch={false}>
           Entrar na Sala
         </Link>
       </Button>
