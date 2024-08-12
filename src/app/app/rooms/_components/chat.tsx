@@ -108,7 +108,7 @@ export function Chat({
  
   return (
     <>
-      {/* {reconnecting && (
+      {reconnecting && (
         <Dialog
           open={reconnecting}
           onOpenChange={() => router.push('/app/rooms')}
@@ -125,7 +125,7 @@ export function Chat({
             </div>
           </DialogContent>
         </Dialog>
-      )} */}
+      )}
       {isLoading && !reconnecting && (
         <Dialog defaultOpen>
           <DialogContent className="p-6 sm:max-w-sm">

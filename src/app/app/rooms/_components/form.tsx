@@ -56,7 +56,6 @@ export function Form({ roomId, userId, className }: FormChat) {
     //     },
     //     }
     //  )
-    //  clearMessages()
      reset()
   })
   return (

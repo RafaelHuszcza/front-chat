@@ -68,15 +68,19 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
         if (!reconnecting) {
           setReconnecting(true)
         }
+        const message = {
+          type: 'leave',
+          content: '',
+          authorId: userId,
+          roomId,
+        }
+        socket.send(JSON.stringify(message))
         console.log('WebSocket connection closed:', event)
       }
       socket.onerror = (error) => {
         if (!reconnecting) {
           setReconnecting(true)
         }
-        console.error('WebSocket connection error:', error)
-      }
-      socket.onerror = (error) => {
         console.error('WebSocket connection error:', error)
       }
       return socket

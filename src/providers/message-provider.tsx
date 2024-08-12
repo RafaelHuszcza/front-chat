@@ -48,19 +48,6 @@ const ChatMessagesProvider = ({
     return [];
   });
 
-
-
-  // useEffect(() => {
-  //   const storedMessages = window.localStorage.getItem('chatMessages');
-  //   if (storedMessages) {
-  //     try {
-  //       const parsedMessages: Message[] = JSON.parse(storedMessages);
-  //       setMessages(parsedMessages);
-  //     } catch (error) {
-  //       console.error('Failed to parse messages:', error);
-  //     }
-  //   }
-  // }, []);
   
   useEffect(() => {
       localStorage.setItem('chatMessages', JSON.stringify(messages));
