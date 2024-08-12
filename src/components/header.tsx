@@ -14,7 +14,9 @@ import { UserDropdown } from './user-dropdown'
 
 export function Header() {
   const { data: session } = useSession()
-  const navigation = [{ name: 'Salas', href: '/app/rooms' }]
+  const navigation = [{ name: 'Salas', href: '/app/rooms', 
+  }, { name: 'Termos de Serviço', href: '/terms' }, { name: 'Privacidade', href: '/privacy'
+   }]
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   useEffect(() => {
