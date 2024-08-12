@@ -20,6 +20,10 @@ export interface Member {
   email: string
   id: string
 }
+export interface MemberMessage {
+  type: 'members'
+  content: Member[]
+}
 export interface Room {
   id: string
   subject: string
@@ -59,7 +63,7 @@ export function Chat({
   useEffect(() => {
     if (!initialCheckDone.current) {
       for (let i = 0; i < messages.length; i++) {
-        if (messages[i].roomId !== roomId) {
+        if (messages[i]?.roomId !== roomId) {
           clearMessages()
           break
         }
@@ -74,7 +78,7 @@ export function Chat({
     const message = JSON.parse(event.data)
     console.log('Received message:', message)
     if (message.type === 'members') {
-      setMembers(message.content)
+      setMembers(message.content as MemberMessage['content'])
     } else if (
       message.type === 'message' ||
       message.type === 'join' ||
