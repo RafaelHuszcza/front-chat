@@ -4,11 +4,12 @@ const nextConfig = {
     config.externals = [...config.externals, 'bcrypt']
     return config
   },
-  experimental:{
-    staleTimes:{
+  output: 'standalone',
+  experimental: {
+    staleTimes: {
       dynamic: 0,
-    }
-  }
-};
+    },
+  },
+}
 
-export default nextConfig;
+export default nextConfig
