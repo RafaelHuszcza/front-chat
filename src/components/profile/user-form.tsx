@@ -25,8 +25,7 @@ interface UserFormProps {
 }
 
 export function UserForm({ user, cancelAction }: UserFormProps) {
-  const { data, update } = useSession()
-  console.log(data)
+  const { update } = useSession()
   const formSchema = z
     .object({
       name: z
