@@ -24,5 +24,7 @@ services:
       - NODE=${NODE}
       - DATABASE_URL=${DATABASE_URL}
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    depends_on: 
+      - postgres
 
       

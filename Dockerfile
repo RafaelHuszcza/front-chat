@@ -17,6 +17,8 @@ WORKDIR /usr/src/app
 COPY --from=dependencies /usr/src/app/node_modules ./node_modules
 COPY . .
 
+
+RUN npx prisma generate
 RUN npm run build
 
 FROM base AS deploy
@@ -39,8 +41,8 @@ COPY --from=builder --chown=nextjs:nodejs /usr/src/app/.next/static ./.next/stat
 
 USER nextjs
 
-ENV PORT 4070
+ENV PORT 3000
 
-EXPOSE 	4070
+EXPOSE 	3000
 
 CMD ["node", "server.js"]
