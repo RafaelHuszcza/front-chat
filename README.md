@@ -1,4 +1,4 @@
-# Nome da Aplicação
+# Chat distribuído
 
 Este projeto é uma aplicação web desenvolvida em Next.js que serve como um dos microsserviços do sistema. Ele utiliza Docker para facilitar a instalação e execução, bem como Prisma para a gestão do banco de dados.
 
@@ -51,7 +51,7 @@ docker-compose up -d --build
 
 ### 6. Realize as migrações do banco de dados
 
-Aplique as migrações no banco de dados com o Prisma:
+Aplique as migrações no banco de dados com o Prisma, porem deve-se alterar a env do banco para fora do banco antes desse comando:
 
 ```bash
 npx prisma migrate deploy
