@@ -61,9 +61,8 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
     }
     const socket: WebSocket = new WebSocket(url)
     socket.onopen = () => {
-      if (reconnecting) {
-        setReconnecting(false)
-      }
+      setReconnecting(false)
+
       const message = {
         type: 'join',
         content: '',
@@ -75,9 +74,8 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
     }
 
     socket.onclose = (event) => {
-      if (!reconnecting) {
-        setReconnecting(true)
-      }
+      setReconnecting(true)
+
       const message = {
         type: 'leave',
         content: '',
@@ -88,9 +86,8 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
       console.log('WebSocket connection closed:', event)
     }
     socket.onerror = (error) => {
-      if (!reconnecting) {
-        setReconnecting(true)
-      }
+      setReconnecting(true)
+      setCurrentSocket(null)
       console.error('WebSocket connection error:', error)
     }
     return socket
