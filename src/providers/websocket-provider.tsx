@@ -80,6 +80,7 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
       }
       socket.onclose = (event) => {
         console.log('WebSocket connection closed:', event)
+        setCurrentSocket(null)
         if (reconnecting) return
         setReconnecting(true)
       }
