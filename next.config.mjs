@@ -4,6 +4,7 @@ const nextConfig = {
     config.externals = [...config.externals, 'bcrypt']
     return config
   },
+  reactStrictMode: false,
   output: 'standalone',
   experimental: {
     staleTimes: {

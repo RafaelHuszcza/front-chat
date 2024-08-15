@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
 interface WebSocketContextValue {
@@ -48,10 +49,12 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
     }
     currentSocket.send(JSON.stringify(message))
   }
+  const router = useRouter()
   const createConnection = (
     roomId: string,
     userId: string,
   ): WebSocket | null => {
+    if (!userId) return null
     if (!roomId) return null
     if (currentSocket) return null
     const url = process.env.NEXT_PUBLIC_WEBSOCKET_URL
@@ -59,42 +62,45 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
       console.error('WebSocket URL not found')
       return null
     }
-    const socket: WebSocket = new WebSocket(url)
-    socket.onopen = () => {
-      setReconnecting(false)
+    try {
+      const socket: WebSocket = new WebSocket(url, 'chat')
 
-      const message = {
-        type: 'join',
-        content: '',
-        authorId: userId,
-        roomId,
+      socket.onopen = () => {
+        const message = {
+          type: 'join',
+          content: '',
+          authorId: userId,
+          roomId,
+        }
+        socket.send(JSON.stringify(message))
+        console.log('WebSocket connection established')
+        if (reconnecting) {
+          setReconnecting(false)
+        }
       }
-      socket.send(JSON.stringify(message))
-      console.log('WebSocket connection established')
-    }
-
-    socket.onclose = (event) => {
-      setReconnecting(true)
-
-      const message = {
-        type: 'leave',
-        content: '',
-        authorId: userId,
-        roomId,
+      socket.onclose = (event) => {
+        console.log('WebSocket connection closed:', event)
+        if (reconnecting) return
+        setReconnecting(true)
       }
-      socket.send(JSON.stringify(message))
-      console.log('WebSocket connection closed:', event)
+      socket.onerror = () => {
+        console.log('WebSocket connection error, reconnecting...')
+        if (reconnecting) return
+        setReconnecting(true)
+      }
+      return socket
+    } catch (error) {
+      console.log('Error to connecto websocket:', error)
+      router.push('/app/rooms')
+      return null
     }
-    socket.onerror = (error) => {
-      setReconnecting(true)
-      setCurrentSocket(null)
-      console.error('WebSocket connection error:', error)
-    }
-    return socket
   }
 
   const endConnection = () => {
-    setCurrentSocket(null)
+    if (currentSocket) {
+      currentSocket.close()
+      setCurrentSocket(null)
+    }
   }
 
   return (
