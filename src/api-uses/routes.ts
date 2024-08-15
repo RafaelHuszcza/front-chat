@@ -1,1 +1,1 @@
-export const roomsRoute = '/rooms'
+export const roomsRoute = '/api/rooms'
